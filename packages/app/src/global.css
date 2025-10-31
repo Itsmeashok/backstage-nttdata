@@ -1,0 +1,193 @@
+html, body, #root {
+  font-family: 'Open Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+}
+
+/* Ensure common form controls and headings inherit */
+body, input, button, select, textarea, h1, h2, h3, h4, h5, h6 {
+  font-family: inherit;
+}
+
+article[class^="BackstageContent-root-"],
+article[class*=" BackstageContent-root-"] {
+  background-image: none !important;
+  box-shadow: none !important;
+  background-color: #FFFFFF !important;
+}
+
+header[class^="BackstageHeader-header-"],
+header[class*="BackstageHeader-header-"] {
+  background-image: none !important;
+  background-color: #F2F2F2 !important;
+  box-shadow: none !important;
+  color: #333333 !important;
+}
+
+/* Ensure all text inside Backstage header inherits the color */
+header[class^="BackstageHeader-header-"] *,
+header[class*="BackstageHeader-header-"] * {
+  color: #333333 !important;
+}
+
+h1[class^="BackstageHeader-title-"],
+h1[class*=" BackstageHeader-title-"] {
+  color: #333333 !important;
+  font-size: 30px !important;
+  font-weight:400;
+}
+.MuiTypography-h5,
+[class*="MuiTypography-h5-"] {
+  font-size: 30px !important;
+  font-weight:400;
+}
+
+div[class^="BackstageTable-root-"],
+div[class*=" BackstageTable-root-"] {
+  padding-left: 30px;
+}
+
+th[class^="MuiTableCell-root-"],
+th[class*="MuiTableCell-root-"] {
+  border: 0px !important;
+  border-bottom: 2px solid #333333 !important;
+}
+
+td[class^="MuiTableCell-root-"],
+td[class*="MuiTableCell-root-"] {
+  border: 0px !important;
+  font-size: 1rem !important;
+  color:#333333;
+}
+
+/* Ensure inner typography/links in body cells also scale */
+td[class^="MuiTableCell-root-"] .MuiTypography-root,
+td[class*="MuiTableCell-root-"] .MuiTypography-root,
+td[class^="MuiTableCell-root-"] a,
+td[class*="MuiTableCell-root-"] a {
+  font-size: 1rem !important;
+  color:#333333;
+  text-transform: capitalize;
+}
+
+td[class^="MuiTableCell-root-"] *,
+td[class*="MuiTableCell-root-"] * {
+  font-size: 1rem !important;
+  color:#333333;
+}
+
+tr[class^="MuiTableRow-root-"] td,
+tr[class*="MuiTableRow-root-"] td{
+  padding-top: 20px !important;
+}
+
+/* Make all action column icons red and double size */
+td[class*="MuiTableCell-paddingNone-"] button[class*="MuiIconButton-"] svg[class*="MuiSvgIcon-"],
+td[class*="MuiTableCell-paddingNone-"] span[class*="BackstageFavoriteToggleIcon-"] svg,
+td[class*="MuiTableCell-paddingNone-"] svg[class*="MuiSvgIcon-root"] {
+  color: #C00000 !important;
+  width: 1.6em !important;
+  height: 1.6em !important;
+}
+
+/* Override typography color inheritance for action icons */
+td[class*="MuiTableCell-paddingNone-"] button[class*="MuiIconButton-"] svg path,
+td[class*="MuiTableCell-paddingNone-"] span[class*="BackstageFavoriteToggleIcon-"] svg path,
+td[class*="MuiTableCell-paddingNone-"] svg[class*="MuiSvgIcon-root"] path {
+  fill: #C00000 !important;
+}
+
+/* Table toolbar search field icons */
+div[class*="BackstageTableToolbar-"] svg[class*="MuiSvgIcon-root"] path {
+  fill: #C00000 !important;
+}
+
+/* Create button in Backstage content header */
+div[class*="BackstageContentHeader-"] a[class*="MuiButton-containedPrimary-"] {
+  background-color: #C00000 !important;
+  padding: 10px 30px !important;
+}
+
+div[class*="BackstageContentHeader-"] a[class*="MuiButton-containedPrimary-"]:hover {
+  background-color: #A00000 !important;
+}
+
+/* Register Existing Component button */
+div[class*="BackstageContentHeader-"] a[class*="MuiButton-outlinedPrimary-"] {
+  border-color: #C00000 !important;
+  color: #C00000 !important;
+  padding: 10px 30px !important;
+}
+
+div[class*="BackstageContentHeader-"] a[class*="MuiButton-outlinedPrimary-"]:hover {
+  border-color: #A00000 !important;
+  color: #A00000 !important;
+  background-color: rgba(192, 0, 0, 0.04) !important;
+}
+
+/* User picker card background */
+div[class*="CatalogReactUserListPicker-root-"],
+div[class*="CatalogReactUserListPicker-groupWrapper-"],
+div[class*="CatalogReactUserListPicker-menuItem-"],
+div[class*="CatalogReactUserListPicker-menuItem-"][class*="Mui-selected"]  {
+  background-color: #FFFFFF !important;
+}
+
+/* Replace user picker icons with Icon-Chart */
+div[class*="CatalogReactUserListPicker-listIcon-"] svg[class*="MuiSvgIcon-"] {
+  display: none !important;
+}
+
+div[class*="CatalogReactUserListPicker-listIcon-"]::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 22px;
+  background-image: url('../public/icons/Icon-Chart.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* User picker list items layout - flex container */
+li[role="menuitem"] {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
+  padding-bottom: 8px !important;
+  margin-bottom: 8px !important;
+}
+
+/* Left border for selected menu item - on parent li */
+li[role="menuitem"]:has(div[class*="CatalogReactUserListPicker-menuItem-"][class*="Mui-selected"]) {
+  border-left: 4px solid #A00000 !important;
+  border-bottom: none !important;
+}
+
+/* User picker menu items - main button area */
+div[class*="CatalogReactUserListPicker-menuItem-"] {
+  text-align: left !important;
+  width: 100% !important;
+}
+
+div[class*="CatalogReactUserListPicker-menuItem-"] > div:first-child {
+  display: flex !important;
+  align-items: center !important;
+  text-align: left !important;
+}
+
+/* Remove borders from menu items */
+div[class*="CatalogReactUserListPicker-menuItem-"][class*="MuiListItem-divider-"] {
+  border-bottom: none !important;
+}
+
+/* Amount display with border */
+div[class*="MuiListItemSecondaryAction-root"] {
+  position: static !important;
+  right: auto !important;
+  transform: none !important;
+  align-self: flex-start !important;
+  padding: 4px 12px !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 10px !important;
+  margin-left: 8px !important;
+}
