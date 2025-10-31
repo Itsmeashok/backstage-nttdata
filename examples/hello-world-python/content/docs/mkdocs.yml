@@ -1,0 +1,8 @@
+site_name: Hello World Python Documentation
+
+nav:
+  - Home: index.md
+
+plugins:
+  - techdocs-core
+
