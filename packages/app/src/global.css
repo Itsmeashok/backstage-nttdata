@@ -191,3 +191,12 @@ div[class*="MuiListItemSecondaryAction-root"] {
   border-radius: 10px !important;
   margin-left: 8px !important;
 }
+
+/* Spacing between left filters and right content in TechDocs documentation page */
+article[class^="BackstageContent-root-"] div[class*="MuiGrid-container-"] > div[class*="MuiGrid-grid-lg-2-"] {
+  padding-right: 20px !important;
+}
+
+article[class^="BackstageContent-root-"] div[class*="MuiGrid-container-"] > div[class*="MuiGrid-grid-lg-10-"] {
+  padding-left: 0 !important;
+}

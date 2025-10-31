@@ -10,14 +10,18 @@ import { NotificationsPage } from '@backstage/plugin-notifications';
 import { CatalogImportPage } from '@backstage/plugin-catalog-import';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
+import { useApi } from '@backstage/core-plugin-api';
+import { identityApiRef } from '@backstage/core-plugin-api';
 import Styles from './HomeLayout.styles';
-const { Page, ContentRow, Topbar, TopbarLeft, TopbarRight, LogoImg, TitleText, LogoDivider, IconButton, SearchInput, SearchIconImg, Sidebar, NavList, NavItem, Main } = Styles as any;
+const { Page, ContentRow, Topbar, TopbarLeft, TopbarRight, LogoImg, TitleText, LogoDivider, IconButton, SearchInput, SearchIconImg, UserMenu, Sidebar, NavList, NavItem, Main } = Styles as any;
 
 const ChartIcon = '/icons/Icon-Chart.svg';
 const SearchIcon = '/icons/Icon-Search.svg';
 const BellIcon = '/icons/Icon-Bell.svg';
 const MenuIcon = '/icons/Icon-Menu.svg';
 const GeneralitatLogo = '/logos/Logo-Generalitat.svg';
+const HelpIcon = '/icons/Icon-Info.svg';
+const ChevronIcon = '/icons/Icon-Chevron.svg';
 
 const SidebarLinks: Array<{ to: string; label: string }> = [
   { to: '/home/catalog', label: 'Home' },
@@ -29,6 +33,18 @@ const SidebarLinks: Array<{ to: string; label: string }> = [
 const TopbarSection = () => {
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
+  const identityApi = useApi(identityApiRef);
+  const [userInfo, setUserInfo] = useState<{ name: string; email?: string } | null>(null);
+
+  React.useEffect(() => {
+    identityApi.getBackstageIdentity().then(identity => {
+      const profile = identity.userEntityRef.split('/');
+      const name = profile[profile.length - 1];
+      setUserInfo({ name: name || 'Usuario' });
+    }).catch(() => {
+      setUserInfo({ name: 'Usuario' });
+    });
+  }, [identityApi]);
 
   const triggerSearch = useCallback(() => {
     const trimmed = query.trim();
@@ -65,10 +81,24 @@ const TopbarSection = () => {
           role="button"
           aria-label="Submit search"
         />
-        <IconButton aria-label="Notifications" onClick={() => navigate('/home/notifications')}>
+        <UserMenu onClick={() => navigate('/catalog/development/user/guest')}>
+          <span>
+            {userInfo?.name && userInfo.name.length > 3
+              ? `${userInfo.name.substring(0, 3)}...`
+              : userInfo?.name || 'Usuario'}
+          </span>
+          <img src={ChevronIcon} alt="Dropdown" />
+        </UserMenu>
+        <IconButton aria-label="Notifications" onClick={() => navigate('/notifications')}>
           <img src={BellIcon} alt="Notifications" />
         </IconButton>
-        <IconButton aria-label="Menu" onClick={() => navigate('/home/settings')}>
+        <IconButton 
+          aria-label="Help" 
+          onClick={() => window.open('https://backstage.io/docs/overview/support/', '_blank', 'noopener,noreferrer')}
+        >
+          <img src={HelpIcon} alt="Help" />
+        </IconButton>
+        <IconButton aria-label="Menu" onClick={() => navigate('/settings')}>
           <img src={MenuIcon} alt="Menu" />
         </IconButton>
       </TopbarRight>

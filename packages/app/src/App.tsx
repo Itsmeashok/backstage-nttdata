@@ -58,7 +58,6 @@ const app = createApp({
 const routes = (
   <FlatRoutes>
     <Route path="/" element={<Navigate to="home" />} />
-    {/* Keep original mount points to satisfy routable extension discovery */}
     <Route path="/catalog" element={<CatalogIndexPage />} />
     <Route
       path="/catalog/:namespace/:kind/:name"
@@ -86,17 +85,20 @@ const routes = (
     <Route path="/settings" element={<UserSettingsPage />} />
     <Route path="/catalog-graph" element={<CatalogGraphPage />} />
     <Route path="/notifications" element={<NotificationsPage />} />
-    {/* Custom Home layout with its own internal <Routes> */}
     <Route path="/home/*" element={<HomeLayout />} />
   </FlatRoutes>
 );
 
 const muiTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#C00000',
+    },
+  },
   typography: {
     fontFamily:
       "'Open Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif",
   },
-  // Remove all elevation shadows globally
   shadows: Array(25).fill('none') as any,
   overrides: {
     MuiPaper: {
@@ -135,6 +137,7 @@ const muiTheme = createMuiTheme({
     MuiMenu: {
       paper: { boxShadow: 'none' },
     },
+    
   },
 });
 

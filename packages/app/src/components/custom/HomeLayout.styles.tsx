@@ -107,6 +107,36 @@ const SearchIconImg = styled.img`
   cursor: pointer;
 `;
 
+const UserMenu = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #333333;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background 0.2s;
+  border-radius: 6px;
+  text-transform: capitalize;
+
+  &:hover {
+    background: #f7f7f9;
+  }
+
+  span {
+    color: #333333;
+    font-size: 16px;
+  }
+
+  img {
+    height: 32px;
+    width: 32px;
+  }
+`;
+
 // Sidebar
 const Sidebar = styled.aside`
   width: 220px;
@@ -167,6 +197,7 @@ export default {
   IconButton: IconButton,
   SearchInput: SearchInput,
   SearchIconImg: SearchIconImg,
+  UserMenu: UserMenu,
   Sidebar: Sidebar,
   NavList: NavList,
   NavItem: NavItem,
