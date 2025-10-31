@@ -29,6 +29,7 @@ import HomeLayout from './components/custom/HomeLayout';
 import { SearchPage } from '@backstage/plugin-search';
 import { searchPage } from './components/search/SearchPage';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { lightTheme } from '@backstage/theme';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 const app = createApp({
@@ -89,8 +90,10 @@ const routes = (
   </FlatRoutes>
 );
 
+const baseTheme = createMuiTheme(lightTheme);
 const muiTheme = createMuiTheme({
   palette: {
+    ...baseTheme.palette,
     primary: {
       main: '#C00000',
     },
@@ -137,7 +140,6 @@ const muiTheme = createMuiTheme({
     MuiMenu: {
       paper: { boxShadow: 'none' },
     },
-    
   },
 });
 

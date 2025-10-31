@@ -42,9 +42,25 @@ catalog:
     - type: file
       target: ./examples/entities.yaml
 
-    # Local example template
+    # Local example templates
     - type: file
       target: ./examples/template/template.yaml
+      rules:
+        - allow: [Template]
+    - type: file
+      target: ./examples/hello-world-java/template.yaml
+      rules:
+        - allow: [Template]
+    - type: file
+      target: ./examples/hello-world-python/template.yaml
+      rules:
+        - allow: [Template]
+    - type: file
+      target: ./examples/hello-world-go/template.yaml
+      rules:
+        - allow: [Template]
+    - type: file
+      target: ./examples/hello-world-cpp/template.yaml
       rules:
         - allow: [Template]
 
