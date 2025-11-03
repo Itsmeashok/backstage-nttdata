@@ -1,0 +1,44 @@
+# Backstage override configuration for your local development environment
+
+# Backend auth keys for service-to-service authentication
+backend:
+  auth:
+    keys:
+      - secret: development-secret-key-change-in-production
+
+# GitHub integration token (for catalog import, etc.)
+# Generate a token at: https://github.com/settings/tokens
+# Required permissions: repo (full control of private repositories)
+integrations:
+  github:
+    - host: github.com
+      token: 
+
+# GitHub OAuth configuration
+# To set up GitHub OAuth:
+# 1. Go to https://github.com/settings/developers
+# 2. Create a new OAuth App
+# 3. Set Homepage URL to: http://localhost:3000
+# 4. Set Authorization callback URL to: http://localhost:7007/api/auth/github/handler/frame
+# 5. Copy the Client ID and Client Secret below
+auth:
+  environment: development
+  providers:
+    github:
+      development:
+        clientId: 
+        clientSecret: 
+        # Optional: configure session duration
+        # sessionDuration: { hours: 24 }
+        signIn:
+          resolvers:
+            # Try multiple resolvers in order
+            # First: Match GitHub username with Backstage User entity name
+            - resolver: usernameMatchingUserEntityName
+            # Fallback: Match email local part (before @) with User entity name
+            - resolver: emailLocalPartMatchingUserEntityName
+            # Fallback: Match GitHub email with user profile email
+            - resolver: emailMatchingUserEntityProfileEmail
+    # Keep guest as fallback option
+    guest: {}
+
