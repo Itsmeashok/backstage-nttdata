@@ -31,6 +31,7 @@ import { searchPage } from './components/search/SearchPage';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { lightTheme } from '@backstage/theme';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { ChatButton } from './components/custom/ChatButton';
 
 const app = createApp({
   apis,
@@ -152,6 +153,7 @@ export default app.createRoot(
       <CssBaseline />
       <AppRouter>
         <Root>{routes}</Root>
+        <ChatButton />
       </AppRouter>
     </ThemeProvider>
   </>,
