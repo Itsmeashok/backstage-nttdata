@@ -2,7 +2,7 @@
 
 ## Estado
 
-Borrador
+Validado internamente
 
 ## Fecha
 
@@ -18,24 +18,19 @@ Borrador
 ---
 
 ## Contexto
+El equipo de plataforma evalúa herramientas para implementar un **Internal Developer Portal (IDP)** que sirva como punto central de acceso a:
 
-El equipo de plataforma está evaluando herramientas para implementar un **Developer Portal / Internal Developer Platform (IDP)** que centralice:
+- Catálogo de servicios y documentación técnica (TechDocs).
+- Integraciones con pipelines CI/CD (GitHub Actions, Jenkins).
+- Plantillas de scaffolding para nuevos microservicios (Node.js, Python, Java).
+- Gobernanza de despliegues en Kubernetes/ECS, con trazabilidad y métricas operativas.
 
-- Catálogo de servicios y documentación técnica.  
-- Integración con pipelines CI/CD y entornos de ejecución.  
-- Plantillas de scaffolding para nuevos proyectos.  
-- Gobernanza, trazabilidad y observabilidad.  
+El portal debe alinearse con la estrategia **Cloud-Native** de la organización, integrarse con los 
+sistemas existentes (GitHub Enterprise, AWS, ArgoCD, Terraform Cloud) y cumplir los requisitos de seguridad corporativa (SSO, IAM, RBAC).
 
-Las principales opciones analizadas son **[Backstage](https://backstage.io)** (open source, impulsado por Spotify y CNCF) y **[Port.io](https://port.io)** (plataforma SaaS comercial orientada a IDP con enfoque low-code).
-
-Los objetivos clave de la decisión:
-
-- Mejorar la **experiencia de desarrollo** (DevEx).  
-- Reducir la fricción en la entrega de servicios.  
-- Unificar el acceso a documentación, infraestructura y despliegues.  
-- Garantizar **extensibilidad** y control sobre datos y seguridad.
-
----
+Se comparan dos soluciones principales:
+- **Backstage** (open source, CNCF, personalizable)
+- **Port.io** (SaaS low-code gestionado)
 
 ## Decisión
 
@@ -49,6 +44,7 @@ La plataforma se desplegará y mantendrá internamente, integrándose con CI/CD,
 - **Ecosistema activo:** comunidad CNCF, soporte de grandes empresas, plugins oficiales.  
 - **Control de datos y seguridad:** se ejecuta en infraestructura propia, cumpliendo políticas corporativas.  
 - **Alineamiento con estrategia cloud-native:** Backstage se integra fácilmente con pipelines y servicios existentes.  
+- **Integración con ecosistema existente:** Backstage ofrece plugins oficiales y soporte nativo para integraciones con GitHub Enterprise, ArgoCD, Terraform Cloud, Jenkins y AWS, facilitando la alineación con los flujos y herramientas actuales de la organización.
 - **Coste operativo bajo:** no requiere licencias por usuario ni cuota SaaS.
 
 ---
@@ -56,57 +52,65 @@ La plataforma se desplegará y mantendrá internamente, integrándose con CI/CD,
 ## Alternativas Consideradas
 
 ### 1. Port.io
+**Pros**
+- SaaS administrado, sin necesidad de mantenimiento ni infraestructura.
+- Integración rápida con GitHub, Jenkins, Terraform, Kubernetes (vía API).
+- Interfaz visual con blueprints para relaciones entre servicios.
 
-- **Pros:**
-  - SaaS administrado: sin mantenimiento ni despliegue propio.  
-  - Interfaz moderna y orientada a _insights_ de plataforma.  
-  - Configuración rápida mediante blueprints y relaciones visuales.  
-- **Contras:**
-  - Modelo cerrado, dependiente del proveedor.  
-  - Limitaciones para integraciones complejas o personalizadas.  
-  - Coste mensual/licencia por usuario o servicio.  
-  - Dependencia de APIs externas (vendor lock-in).
+**Contras**
+- Modelo cerrado: dependiente del proveedor y API propietaria.
+- Integraciones personalizadas limitadas (no soporta plugins de backend).
+- Coste mensual por usuario o servicio (TCO creciente).
+- Vendor lock-in con dependencias cloud-side (no exportable).
 
-### 2. Backstage (chosen)
+### 2. Backstage (Elegida)
+**Pros**
+- Open source, extensible mediante plugins (Node.js, React).
+- Ecosistema CNCF y comunidad activa.
+- Integración nativa con CI/CD, Kubernetes, observabilidad y TechDocs.
+- Control completo sobre datos, seguridad e identidad (SSO corporativo).
 
-- **Pros:**
-  - Código abierto, extensible, sin costes de licencia.  
-  - Amplio ecosistema de plugins.  
-  - Total control sobre datos, UI y backend.  
-  - Integración nativa con Kubernetes, GitHub, Jenkins, GitLab, etc.  
-- **Contras:**
-  - Mayor esfuerzo inicial de configuración y mantenimiento.  
-  - Requiere desarrollo de plugins propios.  
-  - Curva de aprendizaje técnica (Node.js, React, YAML, etc.).
+**Contras**
+- Requiere infraestructura (EKS/ECS, PostgreSQL, Redis opcional).
+- Curva de aprendizaje para desarrollo de plugins (TypeScript, YAML, NodeJS, React, Javascript).
+- Coste operativo interno en DevOps + mantenimiento.
 
----
+## Comparativa de Criterios
+
+| Criterio | **Backstage** | **Port.io** |
+|-----------|----------------|--------------|
+| Modelo de entrega | Self-hosted (EKS / ECS) | SaaS administrado |
+| Licenciamiento | Open Source (Apache 2.0) | Comercial (licencia por usuario/servicio) |
+| Extensibilidad | Alta (plugins backend/frontend) | Limitada (blueprints predefinidos) |
+| Comunidad y soporte | Amplia (CNCF, Spotify, Roadie.io) | Soporte comercial cerrado |
+| Integración CI/CD | Nativa (GitHub, Jenkins, GitLab, ArgoCD) | Mediante APIs |
+| Seguridad | Control interno (SSO, IAM, RBAC) | Dependencia del proveedor |
+| Observabilidad | Extensible (Prometheus, Datadog) | Integrada (limitada a métricas básicas) |
+| Multi-tenancy | Soportable mediante namespaces | Limitado (por cuenta) |
+| TCO estimado | Bajo (infra propia) | Medio/Alto (licencia + dependencia SaaS) |
+| Curva de aprendizaje | Alta (Node.js, React, YAML) | Baja (UI low-code) |
+| Observabilidad | Extensible (Prometheus, Datadog, etc.) | Limitada (métricas básicas) |
+| Multi-tenancy | Soportable mediante namespaces | Limitado (por cuenta) |
+
 
 ## Consecuencias
 
-- ✅ **Positivas:**
-  - Plataforma unificada y extensible para equipos de desarrollo.  
-  - Evita dependencia de terceros y refuerza soberanía técnica.  
-  - Permite iterar gradualmente sin costes de licencia.  
+### Positivas
+- Control total sobre la plataforma IDP (infraestructura, datos, seguridad).
+- Flexibilidad para construir plugins internos (governance, SLO tracking, compliance).
+- Alineación con arquitectura cloud-native y pipelines existentes.
+- Bajo costo incremental a largo plazo (sin licencias SaaS).
 
-- ⚠️ **Negativas / trade-offs:**
-  - Requiere recursos internos (infraestructura + mantenimiento).  
-  - Curva de adopción inicial para equipos no familiarizados.  
 
----
+### Negativas
+- Requiere esfuerzo inicial de despliegue (EKS, Postgres, CI/CD pipelines).
+- Mantenimiento continuo (actualizaciones, plugins, seguridad).
+- Curva de adopción para equipos sin experiencia en Backstage.
+- Requiere esfuerzo inicial de despliegue y configuración (EKS, Postgres, pipelines CI/CD).
+- Mantenimiento continuo necesario (actualizaciones, seguridad, compatibilidad de plugins).
 
-## Tabla comparativa de criterios
 
-| Criterio | Backstage | Port.io |
-|-----------|------------|----------|
-| Modelo de entrega | Self-hosted (open source) | SaaS (cloud) |
-| Licenciamiento | Gratuito, Apache 2.0 | Comercial (por usuario/servicio) |
-| Extensibilidad | Alta (plugins, APIs) | Limitada a blueprints definidos |
-| Comunidad y soporte | Amplia, activa (CNCF) | Limitada al soporte comercial |
-| Integración CI/CD | Nativa (GitHub, GitLab, Jenkins) | Disponible vía API |
-| Seguridad y compliance | Control total interno | Dependencia del proveedor |
-| Analítica y reporting | Básico (extensible) | Avanzado, integrado |
-| Coste total (TCO) | Bajo (infraestructura propia) | Medio-alto (licencias SaaS) |
-| Curva de aprendizaje | Alta | Baja |
-| Control de datos | Total | Parcial |
+## Recursos Adicionales
+- [Backstage.io Documentation](https://backstage.io/docs)
+- [Port.io Docs](https://docs.getport.io/)
 
----
